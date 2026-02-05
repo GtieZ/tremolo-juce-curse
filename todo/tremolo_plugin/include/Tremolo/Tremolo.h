@@ -22,6 +22,8 @@ public:
     for (auto& lfo : lfos) {
       lfo.prepare(processSpec);
     }
+
+    lfoTransitionSmoother.reset(sampleRate, 0.025);
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
@@ -71,21 +73,36 @@ private:
     return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
   }
 
-  float getNextLfoValue() {
-    return lfos[juce::toUnderlyingType(currentLfo)].processSample(0.f);
-  }
-
   void updateLfoWaveform() {
-    if (currentLfo != lfoToSet) {
+    if (lfoToSet != currentLfo) {
+      // update the smoother
+      lfoTransitionSmoother.setCurrentAndTargetValue(getNextLfoValue());
+
       currentLfo = lfoToSet;
+
+      // initiate smoothing
+      lfoTransitionSmoother.setTargetValue(getNextLfoValue());
     }
   }
 
+  float getNextLfoValue() {
+    if (lfoTransitionSmoother.isSmoothing()) {
+      return lfoTransitionSmoother.getNextValue();
+    }
+
+    return lfos[juce::toUnderlyingType(currentLfo)].processSample(0.f);
+  }
+
   std::array<juce::dsp::Oscillator<float>, 2u> lfos{
-      juce::dsp::Oscillator<float>{[](auto phase) { return std::sin(phase); }},
+      juce::dsp::Oscillator<float>{[](auto phase) {
+        return std::sin(phase + juce::MathConstants<float>::pi);
+      }},
       juce::dsp::Oscillator<float>{triangle}};
 
   LfoWaveform currentLfo = LfoWaveform::sine;
   LfoWaveform lfoToSet = currentLfo;
+
+  juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear>
+      lfoTransitionSmoother{0.f};
 };
 }  // namespace tremolo
