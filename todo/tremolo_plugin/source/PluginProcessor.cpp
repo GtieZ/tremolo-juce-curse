@@ -113,6 +113,9 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setModulationRate(parameters.rate.get());
   bypassTransitionSmoother.setBypass(parameters.bypassed.get());
 
+  // TODO: make it exponential in dB like it is in the assigment!!!!!
+  outputGain = parameters.masterVolume.get();
+
   // check for bypass
   if (parameters.bypassed.get() &&
       !bypassTransitionSmoother.isTransitioning()) {
@@ -123,6 +126,17 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
   // apply tremolo
   tremolo.process(buffer);
+
+  // apply outputGain
+  for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
+    for (const auto channelIndex :
+         std::views::iota(0, buffer.getNumChannels())) {
+      const auto inputSample = buffer.getSample(channelIndex, frameIndex);
+      const auto outputSample = inputSample * outputGain;
+
+      buffer.setSample(channelIndex, frameIndex, outputSample);
+    }
+  }
 
   bypassTransitionSmoother.mixToWetBuffer(buffer);
 }

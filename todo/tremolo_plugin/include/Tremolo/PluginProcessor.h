@@ -43,6 +43,8 @@ private:
 
   Tremolo tremolo;
 
+  float outputGain{1.f};
+
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };
 }  // namespace tremolo

@@ -4,10 +4,12 @@ namespace tremolo {
 struct Parameters {
   explicit Parameters(juce::AudioProcessor&);
 
+  juce::AudioParameterFloat& masterVolume;
+
   juce::AudioParameterFloat& rate;
   juce::AudioParameterBool& bypassed;
 
-  JUCE_DECLARE_NON_COPYABLE(Parameters);
-  JUCE_DECLARE_NON_MOVEABLE(Parameters);
+  JUCE_DECLARE_NON_COPYABLE(Parameters)
+  JUCE_DECLARE_NON_MOVEABLE(Parameters)
 };
 }  // namespace tremolo
