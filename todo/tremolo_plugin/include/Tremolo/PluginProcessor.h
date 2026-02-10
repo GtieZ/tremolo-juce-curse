@@ -36,8 +36,10 @@ public:
   juce::AudioProcessorParameter* getBypassParameter() const override;
 
 private:
-  // TODO: add parameters
+  // add parameters
   Parameters parameters{*this};
+
+  BypassTransitionSmoother bypassTransitionSmoother;
 
   Tremolo tremolo;
 
