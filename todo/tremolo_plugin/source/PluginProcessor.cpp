@@ -113,7 +113,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setModulationRate(parameters.rate.get());
   bypassTransitionSmoother.setBypass(parameters.bypassed.get());
 
-  // TODO: make it exponential in dB like it is in the assigment!!!!!
+  const auto previousGain = outputGain;
   outputGain = juce::Decibels::decibelsToGain(parameters.masterVolume.get());
 
   // check for bypass
@@ -128,7 +128,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.process(buffer);
 
   // apply outputGain
-  buffer.applyGain(outputGain);
+  buffer.applyGainRamp(0, buffer.getNumSamples(), previousGain, outputGain);
 
   bypassTransitionSmoother.mixToWetBuffer(buffer);
 }
