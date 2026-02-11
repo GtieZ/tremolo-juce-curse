@@ -14,8 +14,8 @@ juce::AudioParameterFloat& createMasterVolumeParameter(
 
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"output.gain", versionHint}, "Master Volume",
-      juce::NormalisableRange{0.f, 1.f, 0.01f, 0.4f}, 1.f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Linear")
+      juce::NormalisableRange{-12.f, 12.f, 0.1f, 1.f}, 0.f,
+      juce::AudioParameterFloatAttributes{}.withLabel("dB")
 
   );
 
