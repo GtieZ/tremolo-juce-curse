@@ -3,7 +3,10 @@
 namespace tremolo {
 class Tremolo {
 public:
-  enum class LfoWaveform : size_t { sine = 0, triangle = 1 };
+  enum class LfoWaveform : size_t {
+     sine = 0, 
+     triangle = 1 
+  };
 
   Tremolo() {
     for (auto& lfo : lfos) {
