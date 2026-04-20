@@ -11,6 +11,9 @@ private:
   juce::ImageComponent background;
   juce::ImageComponent logo;
 
+  juce::ImageComponent logo2;
+  juce::ImageComponent logo3;
+
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };
 }  // namespace tremolo
