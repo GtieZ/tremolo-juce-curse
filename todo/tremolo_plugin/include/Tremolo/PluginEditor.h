@@ -14,6 +14,14 @@ private:
   juce::ImageComponent logo2;
   juce::ImageComponent logo3;
 
+  juce::Slider rateSlider;
+
+
+  LfoVisualizer lfoVisualizer;
+
+  juce::Slider visualizerThickSlider;
+
+  
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };
 }  // namespace tremolo

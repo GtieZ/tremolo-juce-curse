@@ -14,22 +14,60 @@ PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
   addAndMakeVisible(logo2);
   addAndMakeVisible(logo3);
 
+  rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+  rateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+  rateSlider.setPopupDisplayEnabled(true, true, this);
+  rateSlider.setRange(1.f, 30.f, 0.5f);
+  rateSlider.setTextValueSuffix(" Hz");
+  rateSlider.onValueChange = [this] {
+    DBG("Rate slider value: " << rateSlider.getValue());
+  };
+  addAndMakeVisible(rateSlider);
+
+
+  addAndMakeVisible(lfoVisualizer);
+
+  visualizerThickSlider.setRange(1, 10, 1);
+  visualizerThickSlider.setValue(4, juce::dontSendNotification);
+  visualizerThickSlider.onValueChange = [this] {
+    lfoVisualizer.setStrokeWidth(visualizerThickSlider.getValue());
+  };
+  addAndMakeVisible(visualizerThickSlider);
+
+
+
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
-  setSize(540, 270);
+  setSize(540, 270 + 30);
 
 }
 
 void PluginEditor::resized() {
   const auto bounds = getLocalBounds();
 
-  background.setBounds(bounds);
+  auto backgrondBounds = bounds;
+  backgrondBounds.removeFromBottom(30);
+  background.setBounds(backgrondBounds);
+
 
   logo.setBounds({16, 16, 105, 24});
   logo2.setBounds({ (bounds.getWidth() - 105) / 2,   16 , 105, 24 });
   logo3.setBounds({ bounds.getWidth() - 105 - 16, 16, 105, 24 });
 
+  auto rateSliderBounds = bounds;
+  rateSliderBounds.removeFromLeft(230);
+  rateSliderBounds.removeFromRight(230);
+  rateSliderBounds.removeFromTop(40);
+  rateSliderBounds.removeFromBottom(150);
+  rateSlider.setBounds(rateSliderBounds);
 
+
+  lfoVisualizer.setBounds({ 18, 149, 504, 92 });
+
+  auto visualizerThickSliderBounds = bounds;
+  visualizerThickSliderBounds.removeFromTop(270);
+  visualizerThickSliderBounds.removeFromRight(visualizerThickSliderBounds.getWidth() / 2);
+  visualizerThickSlider.setBounds(visualizerThickSliderBounds);
 
 
 
