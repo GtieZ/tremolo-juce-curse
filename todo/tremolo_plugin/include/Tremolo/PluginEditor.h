@@ -8,27 +8,6 @@ public:
   void resized() override;
 
 private:
-
-  class RateSliderListener : public juce::Slider::Listener {
-  public:
-    RateSliderListener(juce::AudioParameterFloat& p, juce::Slider& s) : parameter{p}, slider{s} {
-      s.addListener(this);
-    }
-
-    ~RateSliderListener() override {
-      slider.removeListener(this);
-    }
-
-    void sliderValueChanged(juce::Slider* s) override {
-      parameter = static_cast<float>(s->getValue());
-    }
-
-  private:
-    juce::AudioParameterFloat& parameter;
-    juce::Slider& slider;
-  };
-
-
   juce::ImageComponent background;
   juce::ImageComponent logo;
 
