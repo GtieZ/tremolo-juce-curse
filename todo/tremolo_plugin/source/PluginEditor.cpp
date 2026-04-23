@@ -1,5 +1,5 @@
 namespace tremolo {
-PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
+PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p), rateAttachment(p.getParameterRefs().rate, rateSlider) {
 
   background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
   
@@ -17,11 +17,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
   rateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
   rateSlider.setPopupDisplayEnabled(true, true, this);
-  rateSlider.setRange(1.f, 30.f, 0.5f);
   rateSlider.setTextValueSuffix(" Hz");
-  rateSlider.onValueChange = [this] {
-    DBG("Rate slider value: " << rateSlider.getValue());
-  };
   addAndMakeVisible(rateSlider);
 
 
