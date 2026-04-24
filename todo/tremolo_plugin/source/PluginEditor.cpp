@@ -54,7 +54,7 @@ void PluginEditor::resized() {
   rateSliderBounds.removeFromLeft(230);
   rateSliderBounds.removeFromRight(230);
   rateSliderBounds.removeFromTop(40);
-  rateSliderBounds.removeFromBottom(150);
+  rateSliderBounds.removeFromBottom(150 + 30);
   rateSlider.setBounds(rateSliderBounds);
 
 
