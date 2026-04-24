@@ -1,3 +1,5 @@
+#pragma once
+
 namespace tremolo {
 class LfoVisualizer : public juce::Component {
 public:

@@ -14,7 +14,7 @@ private:
   juce::ImageComponent logo2;
   juce::ImageComponent logo3;
 
-  juce::Slider rateSlider;
+  RateSlider rateSlider;
   juce::SliderParameterAttachment rateAttachment;
 
   LfoVisualizer lfoVisualizer;
